@@ -2,7 +2,11 @@ class ApplicationsController < ApplicationController
 
   def show
     @app = Application.find(params[:id])
-    if params[:search].present?
+    if params[:pet_id]
+      @pet = Pet.find(params[:pet_id])
+      ApplicationPet.create(pet: @pet, application: @app)
+    elsif
+      params[:search]
       @pets = Pet.search(params[:search])
     end
   end
