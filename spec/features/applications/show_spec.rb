@@ -20,7 +20,19 @@ RSpec.describe 'application show' do
   end
 
   it 'displays links to pets they are applying for' do
-    expect(page).to have_link("#{@pet_1.name}")
-    expect(page).to have_link("#{@pet_2.name}")
+    within("#pets-#{@pet_1.id}") do
+      expect(page).to have_link("#{@pet_1.name}")
+    end
+    within("#pets-#{@pet_2.id}") do
+      expect(page).to have_link("#{@pet_2.name}")
+    end
+  end
+
+  it 'adds a pet via search bar' do
+    expect(page).to have_content("Add a Pet to this Application")
+    fill_in "search", with: "Luc"
+    click_button("Search")
+    expect(current_path).to eq("/applications/#{@app.id}")
+    expect(page).to have_content(@pet_1.name)
   end
 end
