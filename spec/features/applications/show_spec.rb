@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'application show' do
   before :each do
-    @app = Application.create!(name: "Laura", street: "123 This one street", city: "Orlando", state: "FL", zip: 32819, message: "I like pets", status: "Accepted")
+    @app = Application.create!(name: "Laura", street: "123 This one street", city: "Orlando", state: "FL", zip: 32819, message: "I like pets")
     @shelter = Shelter.create!(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
     @pet_1 = @app.pets.create!(adoptable: true, age: 1, breed: 'sphynx', name: 'Lucille Bald', shelter_id: @shelter.id)
     @pet_2 = @app.pets.create!(adoptable: true, age: 3, breed: 'doberman', name: 'Lobster', shelter_id: @shelter.id)
@@ -36,15 +36,6 @@ RSpec.describe 'application show' do
     expect(page).to have_content(@pet_1.name)
   end
 
-#   As a visitor
-# When I visit an application's show page
-# And I search for a Pet by name
-# And I see the names Pets that match my search
-# Then next to each Pet's name I see a button to "Adopt this Pet"
-# When I click one of these buttons
-# Then I am taken back to the application show page
-# And I see the Pet I want to adopt listed on this application
-
   it 'adds a pet to application' do
     fill_in "search", with: "Luc"
     click_button("Search")
@@ -53,4 +44,22 @@ RSpec.describe 'application show' do
     expect(current_path).to eq("/applications/#{@app.id}")
     expect(page).to have_content(@pet_1.name)
   end
+
+  it 'submits an application' do
+    fill_in "search", with: "Luc"
+    click_button("Search")
+
+    expect(page).to have_button("Adopt this Pet")
+    expect(current_path).to eq("/applications/#{@app.id}")
+    expect(page).to have_content(@pet_1.name)
+
+    fill_in "message", with: "I like aminals."
+    click_button("Submit Application")
+    expect(current_path).to eq("/applications/#{@app.id}")
+    expect(page).to have_content("Pending")
+    expect(page).to have_content(@pet_1.name)
+    expect(page).to_not have_content("Add a Pet to this Application")
+    expect(page).to_not have_content("Tell us why you'd make a good owner")
+  end
+
 end
