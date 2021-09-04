@@ -9,8 +9,14 @@ class ApplicationsController < ApplicationController
   end
 
   def create
-    app = Application.create(app_params)
-    redirect_to "/applications/#{app.id}"
+    app = Application.new(app_params)
+
+    if app.save
+      redirect_to "/applications/#{app.id}"
+    else
+      flash[:alert] = "Error: #{error_message(app.errors)}"
+      redirect_to "/applications/new"
+    end
   end
 
 private
