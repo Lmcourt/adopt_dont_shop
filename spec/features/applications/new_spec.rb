@@ -4,7 +4,6 @@ RSpec.describe "new application" do
 
   it 'creates a form' do
     visit "/applications/new"
-
     fill_in(:name, with: "Laura")
     fill_in(:street, with: "123 This one street")
     fill_in(:city, with: "Orlando")
