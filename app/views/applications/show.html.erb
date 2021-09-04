@@ -6,13 +6,13 @@
 <p><%= @app.state %></p>
 <p><%= @app.zip %></p>
 <p><%= @app.message %></p>
-<p><%= @app.status %></p><br><br>
+<p><%= @app.status %></p><br>
 
 <% @app.pets.each do |pet| %>
-<section id="pets-<%= pet.id %>">
-<%= link_to pet.name, "/pets/#{pet.id}" %>
-</section>
-<% end %>
+  <section id="pets-<%= pet.id %>">
+  <%= link_to "#{pet.name}", "/pets/#{pet.id}" %>
+  </section>
+<% end %><br><br>
 
 <h2>Add a Pet to this Application</h2><br>
 <%= form_with url: "/applications/#{@app.id}", method: :get, local: true do |f| %>
@@ -23,4 +23,5 @@
 
 <% @pets&.each do |pet| %>
   <h3><%= pet.name %></h3>
+  <%= button_to "Adopt this Pet", "/applications/#{@app.id}", method: :post, params: {pet_id: "#{pet.id}"}%>
 <% end %>
