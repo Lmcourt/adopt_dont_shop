@@ -6,14 +6,10 @@
 <p><%= @app.state %></p>
 <p><%= @app.zip %></p>
 <p><%= @app.message %></p>
-
-
 <p><%= @app.status %></p><br>
 
-
-
 <% @app.pets.each do |pet| %>
-  <section id="pets-<%= pet.id %>">
+  <section id="app_pets-<%= pet.id %>">
   <%= link_to "#{pet.name}", "/pets/#{pet.id}" %>
   </section>
 <% end %><br><br>
@@ -27,14 +23,18 @@
   <% end %>
 
   <% @pets&.each do |pet| %>
-  <h3><%= pet.name %></h3>
-  <%= button_to "Adopt this Pet", "/applications/#{@app.id}", method: :post, params: {pet_id: "#{pet.id}"}%><br><br>
+    <section id="pets-<%= pet.id %>"
+      <h3><%= pet.name %></h3>
+      <%= button_to "Adopt this Pet", "/applications/#{@app.id}", method: :post, params: {pet_id: "#{pet.id}"}%><br><br>
+    </section>
   <% end %>
 
-  <h3>Tell us why you'd make a good owner</h3>
-  <%= form_with url: "/applications/#{@app.id}", method: :patch, local: true do |f| %>
-  <%= f.label :message %>
-  <%= f.text_field :message %>
-  <%= f.submit "Submit Application" %>
+  <% if @app.pets.count > 0 %>
+    <h3>Tell us why you'd make a good owner</h3>
+    <%= form_with url: "/applications/#{@app.id}", method: :patch, local: true do |f| %>
+      <%= f.label :message %>
+      <%= f.text_field :message %>
+      <%= f.submit "Submit Application" %>
+    <% end %>
   <% end %>
 <% end %>
