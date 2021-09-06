@@ -56,6 +56,12 @@ RSpec.describe Shelter, type: :model do
       end
     end
 
+    describe '.alphabetical_shelters' do
+      it 'places shelters in reverse alpha order' do
+        expect(Shelter.alphabetical_shelters).to eq([@shelter_2, @shelter_3, @shelter_1])
+      end
+    end
+
     describe '.shelter_pets_filtered_by_age' do
       it 'filters the shelter pets based on given params' do
         expect(@shelter_1.shelter_pets_filtered_by_age(5)).to eq([@pet_4])
