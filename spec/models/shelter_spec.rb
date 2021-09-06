@@ -56,6 +56,12 @@ RSpec.describe Shelter, type: :model do
       end
     end
 
+    describe '.alphabetical_shelters' do
+      it 'places shelters in reverse alpha order' do
+        expect(Shelter.alphabetical_shelters).to eq([@shelter_2, @shelter_3, @shelter_1])
+      end
+    end
+
     describe '.shelter_pets_filtered_by_age' do
       it 'filters the shelter pets based on given params' do
         expect(@shelter_1.shelter_pets_filtered_by_age(5)).to eq([@pet_4])
@@ -65,6 +71,17 @@ RSpec.describe Shelter, type: :model do
     describe '.pet_count' do
       it 'returns the number of pets at the given shelter' do
         expect(@shelter_1.pet_count).to eq(3)
+      end
+    end
+
+    describe '.pending_shelters' do
+      it 'shows shelters with pending apps' do
+        app_1 = Application.create!(name: "Laura", street: "123 This one street", city: "Orlando", state: "FL", zip: 32819, message: "I like pets", status: "Pending")
+        app_2 = Application.create!(name: "ME", street: "123 ", city: "City", state: "FL", zip: 32802, message: "PETS", status: "Approved")
+        ApplicationPet.create!(application: app_1, pet: @pet_1) #pending shelter_1
+        ApplicationPet.create!(application: app_2, pet: @pet_2) #approved shelter_2
+
+        expect(Shelter.pending_shelters).to eq([@shelter_1])
       end
     end
   end

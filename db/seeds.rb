@@ -8,6 +8,7 @@
 
 Pet.destroy_all
 Application.destroy_all
+Shelter.destroy_all
 
 app = Application.create!(name: "Laura", street: "123 This one street", city: "Orlando", state: "FL", zip: 32819, message: "I like pets", status: "Accepted")
 shelter = Shelter.create!(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
