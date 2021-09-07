@@ -7,7 +7,11 @@
         <p><%= @app.application_pets.first.status %></p>
       <% if @app.application_pets.first.status.nil? %>
       <%= button_to "Approve Pet", "/admin/applications/#{@app.id}", method: :patch, params: {pet_id: pet.id, status: 'Approved'}%><br><br>
+<<<<<<< HEAD
       <%= button_to "Reject Pet", "/admin/applications/#{@app.id}", method: :patch, params: {pet_id: pet.id, status: 'Rejected'}%><br><br>
+=======
+        <%= button_to "Reject Pet", "/admin/applications/#{@app.id}", method: :patch, params: {pet_id: pet.id, status: 'Rejected'}%><br><br>
+>>>>>>> 24974c8291a5148d42ae5d7f68f88597f2b4d70a
       <% end %>
     </section>
   <% end %>
