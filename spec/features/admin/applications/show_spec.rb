@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'admin index page' do
+RSpec.describe 'admin application show page' do
   before(:each) do
     @shelter_1 = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
     @shelter_2 = Shelter.create(name: 'RGV animal shelter', city: 'Harlingen, TX', foster_program: false, rank: 5)
@@ -11,26 +11,16 @@ RSpec.describe 'admin index page' do
     @pet_2 = Pet.create!(adoptable: true, age: 3, breed: 'doberman', name: 'Lobster', shelter_id: @shelter_2.id)
     ApplicationPet.create!(application: @app_1, pet: @pet_1) #pending shelter_1
     ApplicationPet.create!(application: @app_2, pet: @pet_2) #approved shelter_2
-    visit '/admin/shelters'
+    visit "/admin/applications/#{@app_1.id}"
   end
 
-  it 'shows shelters in reverse alphabetical order' do
-    expect(@shelter_2.name).to appear_before(@shelter_3.name)
-    expect(@shelter_3.name).to appear_before(@shelter_1.name)
-  end
-
-#   For this story, you should fully leverage ActiveRecord methods in your query.
-#
-# As a visitor
-# When I visit the admin shelter index ('/admin/shelters')
-# Then I see a section for "Shelter's with Pending Applications"
-# And in this section I see the name of every shelter that has a pending application
-
-  it 'shows shelters with pending applications' do
-    expect(page).to have_content("Shelter's with Pending Applications")
-    within("#pending") do
-      expect(page).to have_content(@shelter_1.name)
-      expect(page).to_not have_content(@shelter_2.name)
+  it 'approves a pet for adoption' do
+    expect(page).to have_content("Pending")
+    within("#approval-#{@pet_1.id}") do
+      click_on("Approve Pet")
+      expect(page).to have_current_path("/admin/applications/#{@app_1.id}")
+      expect(page).to_not have_content("Approve Pet")
+      expect(page).to have_content("Approved")
     end
   end
 end
