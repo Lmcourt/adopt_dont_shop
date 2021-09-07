@@ -23,4 +23,14 @@ RSpec.describe 'admin application show page' do
       expect(page).to have_content("Approved")
     end
   end
+
+  it 'rejects pets for adoption' do
+    expect(page).to have_content("Pending")
+    within("#approval-#{@pet_1.id}") do
+      click_on("Reject Pet")
+      expect(page).to have_current_path("/admin/applications/#{@app_1.id}")
+      expect(page).to_not have_content("Reject Pet")
+      expect(page).to have_content("Rejected")
+    end
+  end
 end
