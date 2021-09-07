@@ -16,4 +16,3 @@ shelter = Shelter.create!(name: 'Aurora shelter', city: 'Aurora, CO', foster_pro
 pet_1 = Pet.create!(adoptable: true, age: 1, breed: 'sphynx', name: 'Lucille Bald', shelter_id: shelter.id)
 pet_2 = Pet.create!(adoptable: true, age: 3, breed: 'doberman', name: 'Lobster', shelter_id: shelter.id)
 ApplicationPet.create!(application: app, pet: pet_1)
-ApplicationPet.create!(application: app_2, pet: pet_2)
