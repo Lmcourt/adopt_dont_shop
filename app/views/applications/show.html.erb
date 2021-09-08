@@ -16,11 +16,7 @@
 
 <% if @app.status == 'In Progress' %>
   <h3>Add a Pet to this Application</h3><br>
-  <%= form_with url: "/applications/#{@app.id}", method: :get, local: true do |f| %>
-    <%= f.label :search, 'Search for a pet by name' %>
-    <%= f.text_field :search %>
-    <%= f.submit "Search" %><br><br>
-  <% end %>
+<%= render partial: 'shared/search', locals: {url: "/applications/#{@app.id}", method: :get}%>
 
   <% @pets&.each do |pet| %>
     <section id="pets-<%= pet.id %>">
