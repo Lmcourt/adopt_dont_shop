@@ -25,7 +25,12 @@ class ApplicationsController < ApplicationController
   def update
     @app = Application.find(params[:id])
     @app.update(message: params[:message], status: 'Pending')
-    redirect_to "/applications/#{@app.id}"
+    if @app.save
+      redirect_to "/applications/#{@app.id}"
+    else
+      flash[:alert] = "Error: description must be longer than 10 characters"
+      redirect_to "/applications/#{@app.id}"
+    end
   end
 
 private
