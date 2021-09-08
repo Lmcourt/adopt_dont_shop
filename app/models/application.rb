@@ -6,4 +6,5 @@ class Application < ApplicationRecord
   validates :city, presence: true
   validates :state, presence: true
   validates :zip, presence: true
+  validates :message, length: { minimum: 10 }, on: :update
 end

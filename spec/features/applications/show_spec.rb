@@ -81,6 +81,24 @@ RSpec.describe 'application show' do
       expect(page).to have_content("I like aminals")
     end
 
+    it 'flashes an error if description is fewer than 10 characters' do
+      fill_in "search", with: "Luc"
+      click_button("Search")
+
+      within("#pets-#{@pet_1.id}") do
+        click_button("Adopt this Pet")
+      end
+
+      expect(current_path).to eq("/applications/#{@app.id}")
+      expect(page).to have_content(@pet_1.name)
+
+      fill_in "message", with: "aminals."
+      click_button("Submit Application")
+      expect(page).to_not have_content("Pending")
+      expect(current_path).to eq("/applications/#{@app.id}")
+      expect(page).to have_content("Error: description must be longer than 10 characters")
+    end
+
     it 'does not show submit section without selecting pets' do
       expect(page).to_not have_content(@pet_1.name)
       expect(page).to_not have_content("Tell us Why you'd make a good owner")
@@ -91,8 +109,10 @@ RSpec.describe 'application show' do
       click_button("Adopt this Pet")
       expect(current_path).to eq("/applications/#{@app.id}")
       expect(page).to have_content(@pet_1.name)
+      fill_in "message", with: "aminals are amazing and I love them."
+
       click_button("Submit Application")
-      expect(page).to_not have_content("Search")
+      expect(page).to_not have_button("Search")
       expect(page).to_not have_content("Submit Application")
     end
   end
