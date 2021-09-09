@@ -1,7 +1,7 @@
 class ApplicationsController < ApplicationController
+  before_action :current_app, only: [:show, :update]
 
   def show
-    @app = Application.find(params[:id])
     if params[:search]
       @pets = Pet.search(params[:search])
     end
@@ -23,7 +23,6 @@ class ApplicationsController < ApplicationController
   end
 
   def update
-    @app = Application.find(params[:id])
     @app.update(message: params[:message], status: 'Pending')
     if @app.save
       redirect_to "/applications/#{@app.id}"
@@ -36,5 +35,9 @@ class ApplicationsController < ApplicationController
 private
   def app_params
     params.permit(:name, :street, :city, :state, :zip)
+  end
+
+  def current_app
+    @app = Application.find(params[:id])
   end
 end
