@@ -1,6 +1,6 @@
 
 <h1> Your Application: </h1><br>
-<p><%= @app.name %></p>
+<h4><%= @app.name %></h4>
 <p><%= @app.street %> </p>
 <p><%= @app.city %></p>
 <p><%= @app.state %></p>
@@ -23,7 +23,7 @@
       <h3><%= pet.name %></h3>
       <%= button_to "Adopt this Pet", "/applications/#{@app.id}", method: :post, params: {pet_id: "#{pet.id}"}%><br><br>
     </section>
-  <% end %>
+  <% end %><br><br>
 
   <% if @app.pets.count > 0 %>
     <h3>Tell us why you'd make a good owner</h3>
